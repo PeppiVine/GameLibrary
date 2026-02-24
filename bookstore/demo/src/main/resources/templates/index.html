@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booklist</title>
+    <title>Bookstore</title>
 </head>
 
 <body>
-    <h1>Books</h1>
+    <h1 th:text="${message}"></h1>
+    <h2>Books</h2>
     <table>
         <thead>
             <tr>
@@ -24,13 +25,17 @@
                 <td th:text="${book.title}">Title</td>
                 <td th:text="${book.isbn}">Isbn</td>
                 <td th:text="${book.publicationYear}">Year</td>
+
                 <td>
                     <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
                     <a th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
                 </td>
+
             </tr>
+
         </tbody>
     </table>
+    <p><a th:href="@{/add}">Add book</a></p>
 </body>
 
 </html>
