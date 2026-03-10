@@ -1,65 +1,78 @@
 package fi.haagahelia.demo.domain;
+
 import jakarta.persistence.*;
 
 @Entity
 public class Book {
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
- private String title;
- private String author;
- private String isbn;
- private int publicationYear;
+   private String title;
+   private String author;
+   private String isbn;
+   private int publicationYear;
 
- public Book(){}
+   @ManyToOne
+   @JoinColumn(name = "category_id")
+   private Category category;
 
- public Book(String title, String author, String isbn, int publicationYear){
-    this.title = title;
-    this.author = author;
-    this.isbn = isbn;
-    this.publicationYear = publicationYear;
- }
+   public Book() {
+   }
 
- public Long getId() {
-    return id;
- }
+   public Book(String title, String author, String isbn, int publicationYear) {
+      this.title = title;
+      this.author = author;
+      this.isbn = isbn;
+      this.publicationYear = publicationYear;
+   }
 
- public void setId(Long id) {
-    this.id = id;
- }
+   public Long getId() {
+      return id;
+   }
 
- public String getTitle() {
-    return title;
- }
+   public void setId(Long id) {
+      this.id = id;
+   }
 
- public void setTitle(String title) {
-    this.title = title;
- }
+   public String getTitle() {
+      return title;
+   }
 
- public String getAuthor() {
-    return author;
- }
+   public void setTitle(String title) {
+      this.title = title;
+   }
 
- public void setAuthor(String author) {
-    this.author = author;
- }
+   public String getAuthor() {
+      return author;
+   }
 
- public String getIsbn() {
-    return isbn;
- }
+   public void setAuthor(String author) {
+      this.author = author;
+   }
 
- public void setIsbn(String isbn) {
-    this.isbn = isbn;
- }
+   public String getIsbn() {
+      return isbn;
+   }
 
- public int getPublicationYear() {
-    return publicationYear;
- }
+   public void setIsbn(String isbn) {
+      this.isbn = isbn;
+   }
 
- public void setPublicationYear(int publicationYear) {
-    this.publicationYear = publicationYear;
- }
+   public int getPublicationYear() {
+      return publicationYear;
+   }
 
- 
+   public void setPublicationYear(int publicationYear) {
+      this.publicationYear = publicationYear;
+   }
+
+   public Category getCategory() {
+      return category;
+   }
+
+   public void setCategory(Category category) {
+      this.category = category;
+   }
+
 }

@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add</title>
 </head>
+
 <body>
     <h1>Add book</h1>
     <form th:action="@{/save}" th:object="${book}" method="post">
         <div>
             <label>Author</label>
-            <input type="text" th:field="*{author}"/>
+            <input type="text" th:field="*{author}" />
         </div>
 
         <div>
             <label>Title</label>
-            <input type="text" th:field="*{title}"/>
+            <input type="text" th:field="*{title}" />
         </div>
 
         <div>
             <label>Isbn</label>
-            <input type="text" th:field="*{isbn}"/>
+            <input type="text" th:field="*{isbn}" />
         </div>
 
         <div>
             <label>Year</label>
-            <input type="number" th:field="*{publicationYear}"/>
+            <input type="number" th:field="*{publicationYear}" />
+        </div>
+
+        <div>
+            <label>Category</label>
+            <select id="category" th:field="*{category.id}">
+                <option value="" disabled selected> --select category--</option>
+                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+            </select>
         </div>
 
         <button type="submit">Save</button>
@@ -35,4 +45,5 @@
     </p>
 
 </body>
+
 </html>
