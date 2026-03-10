@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,9 @@
 <body>
     <h1 th:text="${message}"></h1>
     <h2>Books</h2>
+    <p>
+        Logged in: <span sec:authentication="name"></span>
+    </p>
     <table>
         <thead>
             <tr>
@@ -29,13 +32,19 @@
 
                 <td th:text="${book.category !=null ? book.category.name : '-'}"></td>
                 <td>
-                    <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
                     <a th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
+                </td>
+
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
                 </td>
 
             </tr>
 
         </tbody>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="log out" />
+        </form>
     </table>
     <p><a th:href="@{/add}">Add book</a></p>
 </body>
