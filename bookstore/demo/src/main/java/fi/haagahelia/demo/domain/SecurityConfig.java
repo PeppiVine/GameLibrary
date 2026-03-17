@@ -2,6 +2,7 @@ package fi.haagahelia.demo.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+        private final UserDetailServiceImpl userDetailService;
+
+        public SecurityConfig(UserDetailServiceImpl userDetailService) {
+                this.userDetailService = userDetailService;
+        }
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -20,7 +26,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .requestMatchers("/css/**").permitAll()
                                                 .requestMatchers("/login").permitAll()
-                                                .requestMatchers("/delete/**").hasRole("ADMIN")
+                                                .requestMatchers("/delete/**").hasAuthority("ADMIN")
                                                 .anyRequest().authenticated())
                                 .formLogin(form -> form
                                                 .loginPage("/login")
@@ -34,20 +40,11 @@ public class SecurityConfig {
         }
 
         @Bean
-        public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-                UserDetails user = User.builder()
-                                .username("user")
-                                .password(passwordEncoder.encode("user"))
-                                .roles("USER")
-                                .build();
-
-                UserDetails admin = User.builder()
-                                .username("admin")
-                                .password(passwordEncoder.encode("admin"))
-                                .roles("USER", "ADMIN")
-                                .build();
-
-                return new InMemoryUserDetailsManager(user, admin);
+        public DaoAuthenticationProvider authenticationProvider() {
+                DaoAuthenticationProvider autProvider = new DaoAuthenticationProvider();
+                autProvider.setUserDetailsService(userDetailService);
+                autProvider.setPasswordEncoder(passwordEncoder());
+                return autProvider;
         }
 
         @Bean
