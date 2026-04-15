@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${game.title}">Peli</title>
+</head>
+
+<body>
+
+    <h1 th:text="${game.title}"></h1>
+
+    <p><strong>Vuosi:</strong> <span th:text="${game.releaseYear}"></span></p>
+    <p><strong>Kategoria:</strong> <span th:text="${game.category}"></span></p>
+    <p><strong>Pelintekijä:</strong> <span th:text="${game.developer}"></span></p>
+    <p><strong>Pääarvostelu:</strong> <span th:text="${game.review}"></span></p>
+    <p><strong>Arvosana:</strong> <span th:text="${game.rating}"></span></p>
+
+    <p>
+        <a th:href="@{/}">Takaisin listaan</a>
+    </p>
+
+    <h2>Käyttäjien arvostelut</h2>
+
+    <div th:if="${#lists.isEmpty(reviews)}">
+        <p>Ei vielä arvosteluja.</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(reviews)}">
+        <div th:each="r : ${reviews}">
+            <p>
+                <strong th:text="${r.user.username}"></strong>
+                :
+                <span th:text="${r.rating}"></span>
+            </p>
+            <p th:text="${r.review}"></p>
+            <p th:if="${r != null && r.createdAt != null}"
+                th:text="${#temporals.format(r.createdAt, 'dd.MM.yyyy HH:mm')}"></p>
+
+            <hr>
+        </div>
+    </div>
+
+    <h2>Lisää oma arvostelu</h2>
+
+    <form th:object="${userReview}" th:action="@{/games/{id}/review(id=${game.id})}" method="post">
+        <p>
+            <label>Arvosana</label><br>
+            <input type="text" th:field="*{rating}">
+        </p>
+
+        <p>
+            <label>Arvostelu</label><br>
+            <textarea th:field="*{review}"></textarea>
+        </p>
+
+
+        <p>
+            <input type="submit" value="Tallenna arvostelu">
+        </p>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add</title>
+</head>
+
+<body>
+    <h1>Add game</h1>
+    <form th:action="@{/save}" th:object="${game}" method="post">
+        <div>
+            <label>Title</label>
+            <input type="text" th:field="*{title}" />
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+        </div>
+
+        <div>
+            <label>Year</label>
+            <input type="number" th:field="*{releaseYear}" />
+            <span th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}"></span>
+        </div>
+
+        <div>
+            <label>Developer</label>
+            <input type="text" th:field="*{developer}" />
+            <span th:if="${#fields.hasErrors('developer')}" th:errors="*{developer}"></span>
+        </div>
+
+
+        <div>
+            <label>Category</label>
+            <input type="text" th:field="*{category}" />
+            <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+        </div>
+
+        <div>
+            <label>Rating</label>
+            <input type="number" th:field="*{rating}" />
+            <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></span>
+        </div>
+
+        <div>
+            <label>Review</label>
+            <input type="text" th:field="*{review}" />
+        </div>
+
+        <div th:if="${#fields.hasErrors('*')}">
+            <p>Form has errors:</p>
+            <ul>
+                <li th:each="err :${#fields.errors('*')}" th:text="${err}">
+                </li>
+            </ul>
+        </div>
+
+
+
+        <button type="submit">Save</button>
+    </form>
+    <p>
+        <a th:href="@{/index}">Back to games</a>
+    </p>
+
+</body>
+
+</html>

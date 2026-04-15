@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+
+<body>
+    <h1>Edit game</h1>
+    <form th:action="@{/save}" th:object="${game}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div>
+            <label>Title</label>
+            <input type="text" th:field="*{title}" />
+        </div>
+
+        <div>
+            <label>Year</label>
+            <input type="number" th:field="*{releaseYear}" />
+        </div>
+
+
+        <div>
+            <label>Category</label>
+            <input type="text" th:field="*{category}" />
+        </div>
+
+        <div>
+            <label>Rating</label>
+            <input type="number" th:field="*{rating}" />
+        </div>
+
+        <div>
+            <label>Review</label>
+            <input type="text" th:field="*{review}" />
+        </div>
+
+
+
+        <button type="submit">Save</button>
+    </form>
+    <p>
+        <a th:href="@{/}">Back to games</a>
+    </p>
+
+</body>
+
+</html>

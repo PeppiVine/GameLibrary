@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game library</title>
+</head>
+
+<body>
+    <h1 th:text="${message}"></h1>
+    <h2>Games</h2>
+    <p>
+        Logged in: <span sec:authentication="name"></span>
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Category</th>
+                <th>Developer</th>
+                <th>Rating</th>
+                <th>Review</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="game : ${games}">
+                <td th:text="${game.title}">Title</td>
+                <td th:text="${game.releaseYear}">Year</td>
+                <td th:text="${game.category}">Category</td>
+                <td th:text="${game.rating}">Rating</td>
+                <td th:text="${game.review}">Review</td>
+
+                <td sec:authorize="hasAuthority('ADMIN')">
+
+                    <a th:href="@{/edit/{id}(id=${game.id})}">Edit</a>
+                </td>
+
+                <td sec:authorize="hasAuthority('ADMIN')">
+                    <a th:href="@{/delete/{id}(id=${game.id})}">Delete</a>
+                </td>
+
+                <td>
+
+                    <a th:href="@{/games/{id}(id=${game.id})}">Open game</a>
+                </td>
+
+
+            </tr>
+
+        </tbody>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="log out" />
+        </form>
+    </table>
+    <p><a th:href="@{/add}">Add game</a></p>
+</body>
+
+</html>
