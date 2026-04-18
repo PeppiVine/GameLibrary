@@ -33,7 +33,7 @@ public class GameController {
     @GetMapping("/add")
     public String addGame(Model model) {
         model.addAttribute("game", new Game());
-        return "addGame";
+        return "addgame";
     }
 
     @PostMapping("/save")
@@ -55,7 +55,7 @@ public class GameController {
     public String editGame(@PathVariable("id") Long id, Model model) {
         model.addAttribute("game", gameRepository.findById(id).orElseThrow());
 
-        return "editGame";
+        return "editgame";
     }
 
     @GetMapping("login")
